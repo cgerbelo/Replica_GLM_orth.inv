@@ -373,7 +373,7 @@ def e8(f,asp,mh2x,mh2z,Q2x,Q2z,Tx,d):
     if d==1:
         return(Tx/asp*min(1,asp)*(mh2x+mh2z)**2/(Q2x+Q2z)**2)
         
-##### one iteration of SE Kabashima style (i.e. equation block (90) in a different order see the original paper by Takahashi and Kabashima #####
+##### one iteration of SE Kabashima style (i.e. equation block (90) in a different order see the original paper by Takahashi and Kabashima) #####
 
 def SE_it(lo,l1,l2,rho,sigma,delta0,Q1x,Q1z,mh1x,mh1z,chih1x,chih1z,Tx,Tz,f,asp,damp,d):
         
