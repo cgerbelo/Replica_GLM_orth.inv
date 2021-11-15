@@ -176,16 +176,19 @@ def soft_thresh_der(x,thresh):
     return(res)
 
 #GVAMP    
-def GVAMP(F, y, l1, l2, loss='squared', damp=0, nb_iterations=100, tol=1e-15):
+def GVAMP(F, y, x0, l1, l2, loss='squared', damp=0, nb_iterations=100, tol=1e-15):
 
     #Initialization
     M,N = np.shape(F)
-    Q1x_0=1
-    Q2z_0=1
+    Q1x_0=np.random.random()
+    Q2z_0=np.random.random()
     h1x_0=np.random.rand(N)
     h2z_0=np.random.rand(M)
-
+    rho_0 = np.linalg.norm(x0)
+    
     conv_vec = np.zeros(nb_iterations)
+    ang_vec = np.zeros(nb_iterations)
+    ls_vec = np.zeros(nb_iterations)
     c = 0
 
     #Algorithm:
@@ -219,6 +222,9 @@ def GVAMP(F, y, l1, l2, loss='squared', damp=0, nb_iterations=100, tol=1e-15):
 
         #Convergence control:
         conv_vec[c] = 1/N*np.linalg.norm(h1x-h1x_0)
+        rho_x = np.linalg.norm(x1)
+        ang_vec[c] = np.arccos(np.dot(x1,x0)/(rho_x*rho_0))
+        ls_vec[c] = 1/N*np.linalg.norm(x1-x0)
         Q1x_0 = Q1x
         Q2z_0 = Q2z
         h1x_0 = h1x
@@ -227,7 +233,7 @@ def GVAMP(F, y, l1, l2, loss='squared', damp=0, nb_iterations=100, tol=1e-15):
             break
         c = c+1
 
-    return x1, conv_vec 
+    return x1, conv_vec, ang_vec, ls_vec 
 
 
 
